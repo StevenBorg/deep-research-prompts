@@ -1,0 +1,166 @@
+You are an architecture-discovery agent. Analyze this repository and produce machine-readable architecture documentation for future LLM coding agents.
+
+Goal:
+Create Mermaid.js diagrams and structured metadata that accurately describe:
+1. Application boundaries
+2. Runtime components
+3. Data flows
+4. API/endpoints
+5. Event/message flows
+6. Persistence models
+7. Auth/security boundaries
+8. External integrations
+9. Key architectural rules future code must preserve
+
+Do not modify source code unless explicitly asked. Create documentation files only.
+
+Output location:
+Create a new folder:
+
+docs/architecture-context/
+
+Required files:
+
+1. docs/architecture-context/README.md
+   - Human-readable overview of the system
+   - How to use the rest of these files as LLM context
+
+2. docs/architecture-context/system-context.md
+   - High-level explanation of the application
+   - Primary actors/users/systems
+   - External dependencies
+   - Mermaid C4-style context diagram
+
+3. docs/architecture-context/component-model.md
+   - Major internal components/modules/services
+   - Ownership/responsibility of each
+   - Mermaid component diagram
+   - Notes on important coupling and boundaries
+
+4. docs/architecture-context/data-flow.md
+   - End-to-end data flows through the system
+   - Mermaid flowcharts for the most important flows
+   - Include request/response flows, async flows, persistence flows, and error paths where visible
+
+5. docs/architecture-context/api-endpoints.md
+   - Inventory of all exposed endpoints/routes/controllers/handlers
+   - Method, path, auth requirements, input, output, side effects
+   - Downstream services or DB tables touched
+   - Mermaid sequence diagrams for important endpoint flows
+
+6. docs/architecture-context/domain-model.md
+   - Key domain entities
+   - Relationships between entities
+   - Source files where models/types/schemas are defined
+   - Mermaid ER diagram or class diagram where appropriate
+
+7. docs/architecture-context/security-auth.md
+   - AuthN/AuthZ flow
+   - Identity providers, tokens, sessions, permissions, middleware
+   - Protected routes
+   - Trust boundaries
+   - Sensitive data handling visible in code
+
+8. docs/architecture-context/llm-context.json
+   Create strict JSON with this structure:
+
+{
+  "system_name": "",
+  "summary": "",
+  "primary_languages": [],
+  "frameworks": [],
+  "entrypoints": [],
+  "runtime_components": [
+    {
+      "name": "",
+      "type": "frontend|backend|worker|library|cli|database|external",
+      "responsibility": "",
+      "source_paths": [],
+      "depends_on": [],
+      "exposes": [],
+      "consumes": []
+    }
+  ],
+  "api_endpoints": [
+    {
+      "method": "",
+      "path": "",
+      "handler": "",
+      "source_file": "",
+      "auth_required": true,
+      "request_shape": "",
+      "response_shape": "",
+      "side_effects": [],
+      "downstream_dependencies": []
+    }
+  ],
+  "data_entities": [
+    {
+      "name": "",
+      "kind": "db_table|orm_model|type|schema|dto|event",
+      "source_file": "",
+      "fields": [],
+      "relationships": []
+    }
+  ],
+  "important_flows": [
+    {
+      "name": "",
+      "trigger": "",
+      "steps": [],
+      "source_files": [],
+      "mermaid_file": ""
+    }
+  ],
+  "architectural_rules": [
+    {
+      "rule": "",
+      "rationale": "",
+      "evidence": [],
+      "risk_if_violated": ""
+    }
+  ],
+  "unknowns": [
+    {
+      "topic": "",
+      "reason": "",
+      "suggested_follow_up": ""
+    }
+  ]
+}
+
+9. docs/architecture-context/llm-instructions.md
+   Write concise instructions for future coding agents:
+   - How to understand this repo
+   - Which files to read first
+   - Architecture rules to follow
+   - Things not to change casually
+   - Common extension patterns
+   - Known ambiguity or risky areas
+
+Analysis requirements:
+- Inspect package manifests, routing files, entrypoints, config files, Docker/deployment files, database migrations, schema files, API handlers, middleware, service layers, clients, tests, and scripts.
+- Prefer facts from code over guesses.
+- Cite source file paths for every major claim.
+- If something is inferred, label it as inferred.
+- If something is unknown, put it in the unknowns section.
+- Do not create fake diagrams. Mermaid diagrams must reflect actual discovered structure.
+- Use stable Mermaid syntax compatible with GitHub rendering.
+- Keep diagrams useful, not ornamental.
+- Break large diagrams into multiple smaller diagrams if needed.
+
+Mermaid guidance:
+- Use flowchart TD for data flow.
+- Use sequenceDiagram for request/response or async interactions.
+- Use classDiagram or erDiagram for domain/entity structure.
+- Use graph LR/TD for component architecture.
+- Every Mermaid diagram should have a title/comment above it explaining what it shows.
+
+Quality bar:
+The output should be good enough that a future LLM coding agent can use docs/architecture-context/llm-context.json and llm-instructions.md as grounding context before making architectural changes.
+
+After creating the files:
+- Summarize what you found.
+- List the most important diagrams created.
+- List the biggest unknowns or areas needing human review.
+- Do not overstate confidence.
